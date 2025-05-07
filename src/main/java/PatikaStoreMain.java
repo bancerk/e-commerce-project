@@ -34,7 +34,7 @@ public class PatikaStoreMain {
     }
 
     private static void loginCustomer(Scanner scanner) {
-        //todo
+        //TODO
     }
 
     private static void saveCustomer(Scanner scanner) {
