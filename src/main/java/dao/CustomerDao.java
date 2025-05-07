@@ -8,7 +8,8 @@ import java.util.List;
 public class CustomerDao {
 
     private final String url = "jdbc:postgresql://localhost:5432/patika_store";
-
+    private final String user = "example";
+    private final String password = "example";
 
     private final String saveScript = """
             INSERT INTO customer(name,email,password) VALUES(?,?,?);
@@ -21,10 +22,14 @@ public class CustomerDao {
     private final String findAllScript = """
             SELECT * FROM customer;
             """;
+    private final String existByEmailScript= """
+            SELECT * FROM customer WHERE email = ? LIMIT 1;
+            """;
 
     public void save(Customer customer) {
+
         try {
-            Connection connection = DriverManager.getConnection(url);
+            Connection connection = DriverManager.getConnection(url,user,password);
             Statement statement = connection.createStatement();
 
             PreparedStatement ps = connection.prepareStatement(saveScript);
@@ -44,7 +49,7 @@ public class CustomerDao {
         Customer customer = new Customer();
 
         try {
-            Connection connection = DriverManager.getConnection(url);
+            Connection connection = DriverManager.getConnection(url,user,password);
             Statement statement = connection.createStatement();
 
             ResultSet rs = statement.executeQuery(findAllScript);
@@ -73,7 +78,7 @@ public class CustomerDao {
 
 
         try {
-            Connection connection = DriverManager.getConnection(url);
+            Connection connection = DriverManager.getConnection(url,user,password);
             Statement statement = connection.createStatement();
 
             ResultSet rs = statement.executeQuery(findAllScript);
@@ -91,5 +96,19 @@ public class CustomerDao {
             throw new RuntimeException(e);
         }
         return customerList;
+    }
+
+    public boolean existByEmail(String email) {
+
+        try {
+            Connection connection = DriverManager.getConnection(url,user,password);
+            Statement statement = connection.createStatement();
+
+            ResultSet rs = statement.executeQuery(existByEmailScript);
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
