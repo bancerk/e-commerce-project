@@ -26,4 +26,26 @@ public class CustomerService {
         customerDao.save(customer);
         System.out.println("Kayıt Başarılı.");
     }
+
+    public void login(String email, String password) {
+        boolean isExist = customerDao.existByEmail(email);
+
+        if (!isExist) {
+            throw new PatikaStoreException(ExceptionMessagesConstants.CUSTOMER_EMAIL_DOES_NOT_EXIST);
+        }
+
+        String hashedPassword = PasswordUtil.hash(password);
+
+        Customer foundCustomer = CustomerDao.findByEmail(email);
+
+        if (foundCustomer != null) {
+            boolean passwordEquals = foundCustomer.getCustomerPassword().equals(hashedPassword);
+            if (!passwordEquals) {
+                throw new PatikaStoreException(ExceptionMessagesConstants.CUSTOMER_PASSWORD_DOES_NOT_MATCH);
+            }else {
+                System.out.println("Kullanıcı sisteme giriş yaptı !");
+            }
+        }
+
+    }
 }

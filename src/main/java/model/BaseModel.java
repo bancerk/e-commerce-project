@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class BaseModel {
 
     private Long id;
-    private LocalDateTime creationDate;
+    private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
     public Long getId() {
@@ -16,12 +16,12 @@ public class BaseModel {
         this.id = id;
     }
 
-    public LocalDateTime getCreationDate() {
-        return creationDate;
+    public LocalDateTime getcreatedDate() {
+        return createdDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
     public LocalDateTime getUpdatedDate() {
