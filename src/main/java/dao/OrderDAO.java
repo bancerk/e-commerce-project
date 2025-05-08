@@ -27,7 +27,6 @@ public class OrderDAO implements BaseDAO<Order> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return order;
     }
 
     @Override
