@@ -1,3 +1,4 @@
+import exception.PatikaStoreException;
 import service.CustomerService;
 
 import java.util.Scanner;
@@ -17,23 +18,27 @@ public class PatikaStoreMain {
             System.out.print("Seçim yapınız: ");
             String choice = scanner.nextLine();
 
-            switch (choice) {
-                case "1":
-                    saveCustomer(scanner);
-                    break;
-                case "2":
-                    loginCustomer(scanner);
-                    break;
-                case "0":
-                    System.out.println("Çıkış yapılıyor...");
-                    return;
-                default:
-                    System.out.println("Geçersiz Seçim!");
+            try {
+                switch (choice) {
+                    case "1":
+                        saveCustomer(scanner);
+                        break;
+                    case "2":
+                        loginCustomer(scanner);
+                        break;
+                    case "0":
+                        System.out.println("Çıkış yapılıyor...");
+                        return;
+                    default:
+                        System.out.println("Geçersiz Seçim!");
+                }
+            }catch (PatikaStoreException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
 
-    private static void loginCustomer(Scanner scanner) {
+    private static void loginCustomer(Scanner scanner) throws PatikaStoreException {
         System.out.print("Email: ");
         String email = scanner.nextLine();
         System.out.println("Şifre: ");
@@ -43,7 +48,7 @@ public class PatikaStoreMain {
         customerService.login(email,password);
     }
 
-    private static void saveCustomer(Scanner scanner) {
+    private static void saveCustomer(Scanner scanner) throws PatikaStoreException {
         System.out.print("İsim: ");
         String name = scanner.nextLine();
         System.out.print("Email: ");

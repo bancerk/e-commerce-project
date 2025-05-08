@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerDao {
+public class CustomerDAO {
 
     private static final String url = "jdbc:postgresql://localhost:5432/patika_store";
     private static final String user = "example";
@@ -39,13 +39,15 @@ public class CustomerDao {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
 
-
-            customer = new Customer();
-            customer.setId(rs.getLong("id"));
-            customer.setCustomerName(rs.getString("name"));
-            customer.setCustomerEmail(rs.getString("email"));
-            customer.setCreatedDate(new Timestamp(rs.getDate("createddate").getTime()).toLocalDateTime());
-            customer.setUpdatedDate(new Timestamp(rs.getDate("updateddate").getTime()).toLocalDateTime());
+            while (rs.next()) {
+                customer = new Customer();
+                customer.setId(rs.getLong("id"));
+                customer.setCustomerName(rs.getString("name"));
+                customer.setCustomerEmail(rs.getString("email"));
+                customer.setCustomerPassword(rs.getString("password"));
+                customer.setcreateddate(new Timestamp(rs.getDate("createddate").getTime()).toLocalDateTime());
+                customer.setupdateddate(new Timestamp(rs.getDate("updateddate").getTime()).toLocalDateTime());
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,8 +91,8 @@ public class CustomerDao {
                 customer.setId(rs.getLong("id"));
                 customer.setCustomerName(rs.getString("name"));
                 customer.setCustomerEmail(rs.getString("email"));
-                customer.setCreatedDate(new Timestamp(rs.getDate("createddate").getTime()).toLocalDateTime());
-                customer.setUpdatedDate(new Timestamp(rs.getDate("updateddate").getTime()).toLocalDateTime());
+                customer.setcreateddate(new Timestamp(rs.getDate("createddate").getTime()).toLocalDateTime());
+                customer.setupdateddate(new Timestamp(rs.getDate("updateddate").getTime()).toLocalDateTime());
             }
 
         } catch (Exception e) {
@@ -115,8 +117,8 @@ public class CustomerDao {
                 customer.setId(rs.getLong("id"));
                 customer.setCustomerName(rs.getString("name"));
                 customer.setCustomerEmail(rs.getString("email"));
-                customer.setCreatedDate(new Timestamp(rs.getDate("createddate").getTime()).toLocalDateTime());
-                customer.setUpdatedDate(new Timestamp(rs.getDate("updateddate").getTime()).toLocalDateTime());
+                customer.setcreateddate(new Timestamp(rs.getDate("createddate").getTime()).toLocalDateTime());
+                customer.setupdateddate(new Timestamp(rs.getDate("updateddate").getTime()).toLocalDateTime());
                 customerList.add(customer);
             }
         } catch (Exception e) {

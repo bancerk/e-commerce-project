@@ -9,6 +9,9 @@ public class Product extends BaseModel {
     private int productStock;
     private Category productCategory;
 
+    public Product() {
+    }
+
     public Product(String productName, BigDecimal productPrice, int productStock, Category productCategory) {
         this.productName = productName;
         this.productPrice = productPrice;

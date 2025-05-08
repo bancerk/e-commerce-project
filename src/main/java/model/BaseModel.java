@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 public class BaseModel {
 
     private Long id;
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+    private LocalDateTime createddate;
+    private LocalDateTime updateddate;
 
     public Long getId() {
         return id;
@@ -16,19 +16,19 @@ public class BaseModel {
         this.id = id;
     }
 
-    public LocalDateTime getcreatedDate() {
-        return createdDate;
+    public LocalDateTime getcreateddate() {
+        return createddate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
+    public void setcreateddate(LocalDateTime createddate) {
+        this.createddate = createddate;
     }
 
-    public LocalDateTime getUpdatedDate() {
-        return updatedDate;
+    public LocalDateTime getupdateddate() {
+        return updateddate;
     }
 
-    public void setUpdatedDate(LocalDateTime updatedDate) {
-        this.updatedDate = updatedDate;
+    public void setupdateddate(LocalDateTime updateddate) {
+        this.updateddate = updateddate;
     }
 }

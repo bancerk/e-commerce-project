@@ -1,6 +1,6 @@
 package service;
 
-import dao.CustomerDao;
+import dao.CustomerDAO;
 import exception.ExceptionMessagesConstants;
 import exception.PatikaStoreException;
 import model.Customer;
@@ -8,13 +8,13 @@ import util.PasswordUtil;
 
 public class CustomerService {
     
-    private CustomerDao customerDao;
+    private final CustomerDAO customerDao;
     
     public CustomerService() {
-        customerDao = new CustomerDao();
+        customerDao = new CustomerDAO();
     }
 
-    public void save(String name, String email, String password) {
+    public void save(String name, String email, String password) throws PatikaStoreException {
 
         boolean isExist = customerDao.existByEmail(email);
 
@@ -27,7 +27,7 @@ public class CustomerService {
         System.out.println("Kayıt Başarılı.");
     }
 
-    public void login(String email, String password) {
+    public void login(String email, String password) throws PatikaStoreException {
         boolean isExist = customerDao.existByEmail(email);
 
         if (!isExist) {
@@ -36,7 +36,7 @@ public class CustomerService {
 
         String hashedPassword = PasswordUtil.hash(password);
 
-        Customer foundCustomer = CustomerDao.findByEmail(email);
+        Customer foundCustomer = CustomerDAO.findByEmail(email);
 
         if (foundCustomer != null) {
             boolean passwordEquals = foundCustomer.getCustomerPassword().equals(hashedPassword);
@@ -46,6 +46,5 @@ public class CustomerService {
                 System.out.println("Kullanıcı sisteme giriş yaptı !");
             }
         }
-
     }
 }
