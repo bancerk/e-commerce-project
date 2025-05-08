@@ -8,11 +8,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
-public class OrderDAO {
+public class OrderDAO implements BaseDAO<Order> {
 
 
-    public Order save(Order order) {
+    public void save(Order order) {
 
         try (Connection connection = DbUtil.getConnection()) {
 
@@ -27,5 +28,25 @@ public class OrderDAO {
             e.printStackTrace();
         }
         return order;
+    }
+
+    @Override
+    public Order findById(long id) {
+        return null;
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return List.of();
+    }
+
+    @Override
+    public void update(Order order) {
+
+    }
+
+    @Override
+    public void delete(long id) {
+
     }
 }

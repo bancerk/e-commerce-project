@@ -8,7 +8,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerDAO {
+public class CustomerDAO implements BaseDAO<Customer> {
+
+    @Override
+    public void delete(long id) {
+        //todo
+    }
+
+    @Override
+    public void update(Customer customer) {
+
+    }
 
     private final Customer customer = null;
 
@@ -53,6 +63,7 @@ public class CustomerDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public Customer findById(long id) {
