@@ -63,6 +63,7 @@ public class CustomerDAO implements BaseDAO<Customer> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public Customer findById(long id) {
