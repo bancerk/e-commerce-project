@@ -15,6 +15,16 @@ public class SqlScriptConstants {
             SELECT * FROM customer;
             """;
 
+    public static final String ORDER_SAVE = """
+            INSERT INTO "order" (customer_id,order_date,order_total_amount)
+            VALUES (?,?,?);
+            """;
+
+    public static final String PAYMENT_SAVE = """
+            INSERT INTO payment (order_id, payment_method, payment_amount)
+            VALUES (?,?,?);
+            """;
+
     private SqlScriptConstants() {
     }
 }

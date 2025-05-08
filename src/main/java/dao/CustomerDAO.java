@@ -1,6 +1,8 @@
 package dao;
 
+import dao.constants.SqlScriptConstants;
 import model.Customer;
+import util.DbUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,34 +10,16 @@ import java.util.List;
 
 public class CustomerDAO {
 
-    private static final String url = "jdbc:postgresql://localhost:5432/patika_store";
-    private static final String user = "example";
-    private static final String password = "example";
-
-    private static final String existByEmailScript = """
-            SELECT * FROM customer WHERE email = ?;
-            """;
-
-    private final String saveScript = """
-            INSERT INTO customer(name,email,password) VALUES(?,?,?);
-            """;
-
-    private final String findByIdScript = """
-            SELECT * FROM customer WHERE id = ?;
-            """;
-
-    private final String findAllScript = """
-            SELECT * FROM customer;
-            """;
     private final Customer customer = null;
 
     public static Customer findByEmail(String email) {
 
         Customer customer = null;
 
-        try {
-            Connection connection = DriverManager.getConnection(url, user, password);
-            PreparedStatement ps = connection.prepareStatement(existByEmailScript);
+
+        try (Connection connection = DbUtil.getConnection()) {
+
+            PreparedStatement ps = connection.prepareStatement(SqlScriptConstants.CUSTOMER_EXIST_BY_EMAIL);
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
 
@@ -57,11 +41,9 @@ public class CustomerDAO {
 
     public void save(Customer customer) {
 
-        try {
-            Connection connection = DriverManager.getConnection(url, user, password);
-            Statement statement = connection.createStatement();
+        try (Connection connection = DbUtil.getConnection()) {
 
-            PreparedStatement ps = connection.prepareStatement(saveScript);
+            PreparedStatement ps = connection.prepareStatement(SqlScriptConstants.CUSTOMER_SAVE);
             ps.setString(1, customer.getCustomerName());
             ps.setString(2, customer.getCustomerEmail());
             ps.setString(3, customer.getCustomerPassword());
@@ -69,7 +51,7 @@ public class CustomerDAO {
             ps.executeUpdate();
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -77,14 +59,11 @@ public class CustomerDAO {
 
         Customer customer = new Customer();
 
-        try {
-            Connection connection = DriverManager.getConnection(url, user, password);
-            Statement statement = connection.createStatement();
+        try (Connection connection = DbUtil.getConnection()) {
 
-            ResultSet rs = statement.executeQuery(findAllScript);
-
-            PreparedStatement ps = connection.prepareStatement(findByIdScript);
+            PreparedStatement ps = connection.prepareStatement(SqlScriptConstants.CUSTOMER_FIND_BY_ID);
             ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 customer = new Customer();
@@ -96,7 +75,7 @@ public class CustomerDAO {
             }
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return customer;
     }
@@ -107,11 +86,10 @@ public class CustomerDAO {
         Customer customer = new Customer();
 
 
-        try {
-            Connection connection = DriverManager.getConnection(url, user, password);
-            Statement statement = connection.createStatement();
+        try (Connection connection = DbUtil.getConnection()) {
 
-            ResultSet rs = statement.executeQuery(findAllScript);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(SqlScriptConstants.CUSTOMER_FIND_ALL);
 
             while (rs.next()) {
                 customer.setId(rs.getLong("id"));
@@ -120,21 +98,24 @@ public class CustomerDAO {
                 customer.setcreateddate(new Timestamp(rs.getDate("createddate").getTime()).toLocalDateTime());
                 customer.setupdateddate(new Timestamp(rs.getDate("updateddate").getTime()).toLocalDateTime());
                 customerList.add(customer);
+
             }
+
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return customerList;
     }
 
     public boolean existByEmail(String email) {
 
-        try {
-            Connection connection = DriverManager.getConnection(url, user, password);
-            PreparedStatement ps = connection.prepareStatement(existByEmailScript);
+        try (Connection connection = DbUtil.getConnection()) {
+
+            PreparedStatement ps = connection.prepareStatement(SqlScriptConstants.CUSTOMER_EXIST_BY_EMAIL);
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             return rs.next();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
