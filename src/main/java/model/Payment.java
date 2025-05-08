@@ -34,9 +34,9 @@ public class Payment extends BaseModel {
         this.paymentAmount = paymentAmount;
     }
 
-    public Payment(Order order, PaymentMethod paymentMethod, BigDecimal paymentAmount) {
+    public Payment(Order order, PaymentMethod paymentMethod) {
         this.order = order;
         this.paymentMethod = paymentMethod;
-        this.paymentAmount = paymentAmount;
+        this.paymentAmount = order.getOrderAmount();
     }
 }

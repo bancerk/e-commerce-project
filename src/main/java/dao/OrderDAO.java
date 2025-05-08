@@ -11,16 +11,16 @@ public class OrderDAO {
     private static final String password = "example";
 
     private static final String saveScript= """
-            INSERT INTO "/order" (customer_id,order_date,total_amount,createddate,updateddate)
-            VALUES (?,?,?,?,?);
+            INSERT INTO \"order" (customer_id,order_date,order_total_amount)
+            VALUES (?,?,?);
             """;
 
     public Order save(Order order){
 
-        try (Connection connection = DriverManager.getConnection(url, user, password){
+        try (Connection connection = DriverManager.getConnection(url, user, password)){
             PreparedStatement ps = connection.prepareStatement(saveScript);
             ps.setLong(1,order.getCustomer().getId());
-//            ps.setDate(2,new java.sql.Date(order.getOrderDate().toEpochSecond()));
+            ps.setTimestamp(2,Timestamp.valueOf(order.getOrderDate()));
             ps.setBigDecimal(3,order.getOrderAmount());
 
             ps.executeUpdate();
@@ -28,5 +28,6 @@ public class OrderDAO {
             e.printStackTrace();
         }
 
+        return order;
     }
 }
