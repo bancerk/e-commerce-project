@@ -25,6 +25,10 @@ public class SqlScriptConstants {
             VALUES (?,?,?);
             """;
 
+    public static final String PRODUCT_SEARCH_BY_NAME = """
+            SELECT * FROM product WHERE name LIKE ?;
+            """;
+
     private SqlScriptConstants() {
     }
 }
