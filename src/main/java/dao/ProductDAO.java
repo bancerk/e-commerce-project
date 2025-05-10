@@ -41,6 +41,22 @@ public class ProductDAO implements BaseDAO<Product> {
     @Override
     public void save(Product product) {
 
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SqlScriptConstants.PRODUCT_SAVE)) {
+
+            ps.setString(1, product.getProductName());
+            ps.setBigDecimal(2, product.getProductPrice());
+            ps.setInt(3, product.getProductStock());
+            ps.setLong(4,product.getProductCategory().getId());
+            ps.setLong(5,product.getCreatedUser().getId());
+            ps.setLong(6,product.getUpdatedUser().getId());
+            ps.setLong(7,product.getProductCategory().getId());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -29,7 +29,7 @@ public class UserService {
 
     }
 
-    public void login(String userName, String password) throws PatikaStoreException {
+    public User login(String userName, String password) throws PatikaStoreException {
 
         User foundUser = userDAO.findByUserName(userName);
 
@@ -43,5 +43,7 @@ public class UserService {
         }
         System.out.println("Giriş Başarılı!");
         System.out.println("Hoş Geldin " + foundUser.getUsername() + " !");
+
+        return foundUser;
     }
 }

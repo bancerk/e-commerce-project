@@ -1,4 +1,6 @@
+import exception.ExceptionMessagesConstants;
 import exception.PatikaStoreException;
+import model.User;
 import model.enums.Role;
 import service.CustomerService;
 import service.UserService;
@@ -73,6 +75,62 @@ public class PatikaStoreMain {
         String password = scanner.nextLine();
 
         userService.login(userName, password);
+
+        User loggedInUser = userService.login(userName, password);
+
+        if (loggedInUser != null && loggedInUser.getActive()) {
+
+            getLoggedInUserMenu();
+
+        } else {
+            throw new PatikaStoreException(ExceptionMessagesConstants.USER_IS_NOT_ACTIVE);
+        }
+    }
+
+    private static void getLoggedInUserMenu() {
+
+        while (true) {
+            System.out.println("==== LOGIN OLAN KULLANICI MENUSU ===");
+            System.out.println("1 - Kategori Oluştur");
+            System.out.println("2 - Kategori Listele");
+            System.out.println("3 - Kategori Sil");
+            System.out.println("4 - Ürün Oluştur");
+            System.out.println("5 - Ürün Listele");
+            System.out.println("6 - Ürün Sil");
+            System.out.println("7 - Siparişleri Listele");
+            System.out.println("0 - Geri Dön");
+            System.out.print("Seçim yapınız: ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    createCategory();
+                    break;
+                case "2":
+                    listCategory();
+                    break;
+                case "3":
+                    deleteCategory();
+                    break;
+                case "4":
+                    createProduct();
+                    break;
+                case "5":
+                    listProduct();
+                    break;
+                case "6":
+                    deleteProduct();
+                    break;
+                case "7":
+                    listOrders();
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("Geçersiz Seçim !");
+            }
+        }
     }
 
     private static void registerUser() throws PatikaStoreException {

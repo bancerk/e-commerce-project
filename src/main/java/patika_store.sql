@@ -55,3 +55,12 @@ CREATE TABLE users
     role     varchar(100)              not null,
     active   boolean default true
 );
+
+ALTER TABLE product
+    ADD COLUMN created_by INT REFERENCES users (id);
+ALTER TABLE category
+    ADD COLUMN created_by INT REFERENCES users (id);
+ALTER TABLE product
+    ADD COLUMN updated_by INT REFERENCES users (id);
+ALTER TABLE category
+    ADD COLUMN updated_by INT REFERENCES users (id);
