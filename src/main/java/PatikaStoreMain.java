@@ -1,44 +1,30 @@
 import exception.PatikaStoreException;
-import model.User;
 import model.enums.Role;
 import service.CustomerService;
 import service.UserService;
-import util.PasswordUtil;
 
 import java.util.Scanner;
 
 public class PatikaStoreMain {
 
     private static final Scanner scanner = new Scanner(System.in);
-
     private static final UserService userService = new UserService();
 
-
     public static void main(String[] args) {
-
-        String choice = scanner.nextLine();
 
         while (true) {
 
             getMainMenu();
 
-
-
-
-
-//            System.out.println("====Patika Store Hoş Geldiniz===");
-//            System.out.println("1 - Müşteri Kaydı");
-//            System.out.println("2 - Giriş Yap");
-//            System.out.println("0 - Çıkış");
+            String choice = scanner.nextLine();
 
             try {
                 switch (choice) {
                     case "1":
-                        getUserLoginMenu();
-//                        saveCustomer(scanner);
+                        getUserMenu();
                         break;
                     case "2":
-                        loginCustomer(scanner);
+                        getCustomerMenu();
                         break;
                     case "0":
                         System.out.println("Çıkış yapılıyor...");
@@ -46,28 +32,33 @@ public class PatikaStoreMain {
                     default:
                         System.out.println("Geçersiz Seçim!");
                 }
-            }catch (PatikaStoreException e) {
+            } catch (PatikaStoreException e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
-    private static void getUserLoginMenu() {
-        while(true) {
+    private static void getUserMenu() throws PatikaStoreException {
+
+
+        while (true) {
+
             System.out.println("==== KULLANICI GİRİŞ PANELİ ===");
             System.out.println("1 - Kullanıcı Kayıt Ol");
-            System.out.println("1 - Kullanıcı Girişi");
+            System.out.println("2 - Kullanıcı Girişi");
             System.out.println("0 - Geri Dön");
             System.out.print("Seçim yapınız: ");
 
-            switch (choice){
+            String choice = scanner.nextLine();
+
+            switch (choice) {
                 case "1":
                     registerUser();
                     break;
                 case "2":
                     loginUser();
                     break;
-                case 0:
+                case "0":
                     return;
                 default:
                     System.out.println("Geçersiz Seçim!");
@@ -75,7 +66,16 @@ public class PatikaStoreMain {
         }
     }
 
-    private static void loginUser() {
+    private static void loginUser() throws PatikaStoreException {
+        System.out.print("Kullanıcı Adı: ");
+        String userName = scanner.nextLine();
+        System.out.print("Şifre: ");
+        String password = scanner.nextLine();
+
+        userService.login(userName, password);
+    }
+
+    private static void registerUser() throws PatikaStoreException {
         System.out.print("Kullanıcı Adı: ");
         String userName = scanner.nextLine();
         System.out.print("Şifre: ");
@@ -84,37 +84,64 @@ public class PatikaStoreMain {
         String roleString = scanner.nextLine().toUpperCase();
 
         Role role = Role.valueOf(roleString);
-        User user = new User(userName, PasswordUtil.hash(password),role);
-    }
 
-    private static void registerUser() {
+        userService.save(userName, password, role);
 
     }
 
     private static void getMainMenu() {
         System.out.println("==== GİRİŞ TÜRÜ SEÇİN ===");
         System.out.println("1 - Kullanıcı Girişi (ADMIN,SUPPORT)");
-        System.out.println("1 - Müşteri Girişi");
+        System.out.println("2 - Müşteri Girişi");
         System.out.println("0 - Çıkış");
         System.out.print("Seçim yapınız: ");
     }
 
-    private static void loginCustomer(Scanner scanner) throws PatikaStoreException {
-        System.out.print("Email: ");
-        String email = PatikaStoreMain.scanner.nextLine();
-        System.out.println("Şifre: ");
-        String password = PatikaStoreMain.scanner.nextLine();
+    private static void getCustomerMenu() throws PatikaStoreException {
 
-        CustomerService customerService = new CustomerService();
-        customerService.login(email,password);
+        while (true) {
+
+            System.out.println("==== MÜŞTERİ GİRİŞ PANELİ ===");
+            System.out.println("1 - Müşteri Kayıt Ol");
+            System.out.println("2 - Müşteri Girişi");
+            System.out.println("0 - Geri Dön");
+            System.out.print("Seçim yapınız: ");
+
+            String choice = scanner.nextLine();
+
+
+            switch (choice) {
+                case "1":
+                    registerCustomer();
+                    break;
+                case "2":
+                    loginCustomer();
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("Geçersiz Seçim!");
+            }
+        }
     }
 
-    private static void saveCustomer() throws PatikaStoreException {
+    private static void loginCustomer() throws PatikaStoreException {
+        System.out.print("Müşteri Adı: ");
+        String userName = scanner.nextLine();
+        System.out.print("Şifre: ");
+        String password = scanner.nextLine();
+
+        CustomerService customerService = new CustomerService();
+        customerService.login(userName, password);
+    }
+
+    private static void registerCustomer() throws PatikaStoreException {
+
         System.out.print("İsim: ");
         String name = scanner.nextLine();
         System.out.print("Email: ");
         String email = scanner.nextLine();
-        System.out.println("Şifre: ");
+        System.out.print("Şifre: ");
         String password = scanner.nextLine();
 
         CustomerService customerService = new CustomerService();

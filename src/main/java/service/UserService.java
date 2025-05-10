@@ -15,7 +15,7 @@ public class UserService {
         userDAO = new UserDAO();
     }
 
-    public void save(String userName, String password) throws PatikaStoreException {
+    public void save(String userName, String password, Role role) throws PatikaStoreException {
 
         User foundUser = userDAO.findByUserName(userName);
 
@@ -24,11 +24,12 @@ public class UserService {
         }
 
         userDAO.save(new User(userName,PasswordUtil.hash(password), Role.SUPPORT));
+        System.out.println("Kayıt başarılı!");
 
 
     }
 
-    public User login(String userName, String password) throws PatikaStoreException {
+    public void login(String userName, String password) throws PatikaStoreException {
 
         User foundUser = userDAO.findByUserName(userName);
 
@@ -40,6 +41,7 @@ public class UserService {
         } else {
             throw new PatikaStoreException(ExceptionMessagesConstants.USER_PASSWORD_DOES_NOT_MATCH);
         }
-        return foundUser;
+        System.out.println("Giriş Başarılı!");
+        System.out.println("Hoş Geldin " + foundUser.getUsername() + " !");
     }
 }

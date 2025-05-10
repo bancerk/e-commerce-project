@@ -49,23 +49,4 @@ public class OrderDAO implements BaseDAO<Order> {
 
     }
 
-    @Override
-    public Order findById(long id) {
-        return null;
-    }
-
-    @Override
-    public List<Order> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public void update(Order order) {
-
-    }
-
-    @Override
-    public void delete(long id) {
-
-    }
 }

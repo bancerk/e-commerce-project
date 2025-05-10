@@ -21,7 +21,7 @@ public class UserDAO implements BaseDAO<User> {
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getRole().name());
-            ps.setBoolean(4,user.getActive());
+            ps.setBoolean(4, user.getActive());
 
             ps.executeUpdate();
 
@@ -51,15 +51,19 @@ public class UserDAO implements BaseDAO<User> {
     }
 
     public User findByUserName(String userName) {
-        User user = null;
-        try (Connection connection = DbUtil.getConnection();
-        PreparedStatement ps = connection.prepareStatement(SqlScriptConstants.USER_FIND_BY_NAME)) {
 
-            ps.setString(1,userName);
+        User user = null;
+
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SqlScriptConstants.USER_FIND_BY_NAME)) {
+
+            ps.setString(1, userName);
 
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()){
+            user = new User();
+
+            while (rs.next()) {
                 user.setId(rs.getLong("id"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
@@ -68,7 +72,7 @@ public class UserDAO implements BaseDAO<User> {
             }
 
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

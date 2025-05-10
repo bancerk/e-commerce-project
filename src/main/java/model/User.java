@@ -4,6 +4,9 @@ import model.enums.Role;
 
 public class User {
 
+    public User() {
+    }
+
     private Long id;
     private String username;
     private String password;
