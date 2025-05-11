@@ -10,6 +10,7 @@ import service.ProductService;
 import service.UserService;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,13 +45,13 @@ public class PatikaStoreMain {
                     default:
                         System.out.println("Geçersiz Seçim!");
                 }
-            } catch (PatikaStoreException e) {
+            } catch (PatikaStoreException | SQLException e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
-    private static void getUserMenu() throws PatikaStoreException {
+    private static void getUserMenu() throws PatikaStoreException, SQLException {
 
 
         while (true) {
@@ -78,7 +79,7 @@ public class PatikaStoreMain {
         }
     }
 
-    private static void loginUser() throws PatikaStoreException {
+    private static void loginUser() throws PatikaStoreException, SQLException {
         System.out.print("Kullanıcı Adı: ");
         String userName = scanner.nextLine();
         System.out.print("Şifre: ");
@@ -99,7 +100,7 @@ public class PatikaStoreMain {
         }
     }
 
-    private static void getLoggedInUserMenu() throws PatikaStoreException {
+    private static void getLoggedInUserMenu() throws PatikaStoreException, SQLException {
 
         while (true) {
             System.out.println("==== LOGIN OLAN KULLANICI MENUSU ===");
@@ -143,6 +144,23 @@ public class PatikaStoreMain {
                     System.out.println("Geçersiz Seçim !");
             }
         }
+    }
+
+    private static void deleteProduct() {
+        System.out.println("Silinecek Ürün ID giriniz:");
+        String productId = scanner.nextLine();
+
+        productService.deleteById(Long.parseLong(productId));
+    }
+
+    private static void listProduct() throws SQLException {
+        List<Product> products = productService.getAll();
+        System.out.println("\n==== ÜRÜN LİSTESİ ====");
+        products.forEach(product ->
+                System.out.printf("%s : %s : %s\n", product.getName(), product.getPrice(), product.getCategory().getCategoryName())
+        );
+        System.out.println("======");
+
     }
 
     private static void deleteCategory() {
@@ -236,7 +254,7 @@ public class PatikaStoreMain {
         customerService.save(name, email, password);
     }
 
-    private void createProduct() throws PatikaStoreException {
+    private static void createProduct() throws PatikaStoreException {
 
         System.out.println("Ürün ismi giriniz:");
         String productName = scanner.nextLine();
@@ -250,7 +268,7 @@ public class PatikaStoreMain {
         Category category = categoryService.getById(Long.parseLong(productCategoryId));
 
 
-        Product product = new Product(productName, new BigDecimal(productPrice), Integer.parseInt(stock), productCategoryId);
+        Product product = new Product(productName, new BigDecimal(productPrice), Integer.parseInt(stock), category);
 
         productService.save(product, LOGGED_IN_USER);
 

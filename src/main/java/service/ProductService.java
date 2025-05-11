@@ -7,6 +7,8 @@ import model.Product;
 import model.User;
 import model.enums.Role;
 
+import java.util.List;
+
 public class ProductService {
 
     private final ProductDAO productDAO;
@@ -25,5 +27,14 @@ public class ProductService {
         productDAO.save(product);
 
         System.out.println("Ürün kaydedildi.");
+    }
+
+    public List<Product> getAll() {
+        return productDAO.findAll();
+    }
+
+    public void deleteById(long id) {
+        productDAO.delete(id);
+        System.out.println("Ürün silindi: " + id);
     }
 }

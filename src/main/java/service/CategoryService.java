@@ -39,7 +39,7 @@ public class CategoryService {
 
     public Category getById(long productCategoryId) throws PatikaStoreException {
 
-        Category foundCategory = CategoryDAO.findById(productCategoryId);
+        Category foundCategory = categoryDAO.findById(productCategoryId);
 
         if (foundCategory == null) {
             throw new PatikaStoreException(ExceptionMessagesConstants.CATEGORY_NOT_FOUND);

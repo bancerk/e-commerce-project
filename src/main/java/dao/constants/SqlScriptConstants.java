@@ -34,6 +34,15 @@ public class SqlScriptConstants {
             VALUES (?,?,?,?,?,?)
             """;
 
+    public static final String PRODUCT_FIND_ALL = """
+            SELECT p.id as id,
+             p.name as name,
+             p.price as price,
+             p.stock as stock,
+             c.id as category_id,
+             c.name as category_name
+             FROM product p, category c WHERE p.category_id = c.id;
+            """;
 
     public static final String USER_SAVE = """
             INSERT INTO users (username, password, role, active)
@@ -57,6 +66,10 @@ public class SqlScriptConstants {
             """;
     public static final String CATEGORY_FIND_ALL = """
             SELECT * FROM category;
+            """;
+    public static final String PRODUCT_DELETE = """
+            DELETE FROM product WHERE id = ?;
+            VALUES (?);
             """;
 
     private SqlScriptConstants() {

@@ -29,7 +29,7 @@ public class CategoryDAO implements BaseDAO<Category> {
     }
 
     @Override
-    public static Category findById(long id) {
+    public Category findById(long id) {
 
         Category category = null;
 
