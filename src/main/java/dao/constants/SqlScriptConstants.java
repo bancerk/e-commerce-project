@@ -55,6 +55,9 @@ public class SqlScriptConstants {
             SELECT * FROM category WHERE id = ?;
             VALUES (?);
             """;
+    public static final String CATEGORY_FIND_ALL = """
+            SELECT * FROM category;
+            """;
 
     private SqlScriptConstants() {
     }

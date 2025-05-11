@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDAO implements BaseDAO<Category> {
@@ -56,7 +57,22 @@ public class CategoryDAO implements BaseDAO<Category> {
 
     @Override
     public List<Category> findAll() {
-        return List.of();
+
+        List<Category> categoryList = new ArrayList<>();
+
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SqlScriptConstants.CATEGORY_FIND_ALL)) {
+
+            ps.executeQuery();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                categoryList.add(new Category(rs.getLong("id"), rs.getString("category_name")));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categoryList;
     }
 
     @Override
