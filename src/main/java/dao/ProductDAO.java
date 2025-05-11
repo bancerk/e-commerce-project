@@ -4,6 +4,7 @@ import dao.constants.SqlScriptConstants;
 import model.Product;
 import util.DbUtil;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,22 +16,28 @@ import java.util.List;
 public class ProductDAO implements BaseDAO<Product> {
 
     public List<Product> searchByName(String name) {
+
         List<Product> products = new ArrayList<>();
 
         try (Connection connection = DbUtil.getConnection()) {
+
             PreparedStatement ps = connection.prepareStatement(SqlScriptConstants.PRODUCT_SEARCH_BY_NAME);
             ps.setString(1, "%" + name + "%");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Product p = new Product();
-                p.setId(rs.getLong("id"));
-                p.setProductName(rs.getString("name"));
-                p.setProductPrice(rs.getBigDecimal("price"));
-                p.setProductStock(rs.getInt("stock"));
-                p.setcreateddate(LocalDateTime.parse(rs.getString("createddate")));
-                p.setupdateddate(LocalDateTime.parse(rs.getString("updateddate")));
-                products.add(p);
+
+                Product product = new Product();
+
+                product.setId(rs.getLong("id"));
+                product.setName(rs.getString("name"));
+                product.setPrice(rs.getBigDecimal("price"));
+                product.setStock(rs.getInt("stock"));
+                product.setCategory(rs.getLong("category_id"));
+                product.setcreateddate(LocalDateTime.parse(rs.getString("createddate")));
+                product.setupdateddate(LocalDateTime.parse(rs.getString("updateddate")));
+
+                products.add(product);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,13 +51,13 @@ public class ProductDAO implements BaseDAO<Product> {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement ps = connection.prepareStatement(SqlScriptConstants.PRODUCT_SAVE)) {
 
-            ps.setString(1, product.getProductName());
-            ps.setBigDecimal(2, product.getProductPrice());
-            ps.setInt(3, product.getProductStock());
-            ps.setLong(4,product.getProductCategory().getId());
-            ps.setLong(5,product.getCreatedUser().getId());
-            ps.setLong(6,product.getUpdatedUser().getId());
-            ps.setLong(7,product.getProductCategory().getId());
+            ps.setString(1, product.getName());
+            ps.setBigDecimal(2, product.getPrice());
+            ps.setInt(3, product.getStock());
+            ps.setLong(4, product.getCategory().getId());
+            ps.setLong(5, product.getCreatedUser().getId());
+            ps.setLong(6, product.getUpdatedUser().getId());
+            ps.setLong(7, product.getCategory().getId());
 
             ps.executeUpdate();
 
@@ -75,7 +82,8 @@ public class ProductDAO implements BaseDAO<Product> {
     }
 
     @Override
-    public void delete(long id) {
+    public int delete(long id) {
 
+        return 0;
     }
 }

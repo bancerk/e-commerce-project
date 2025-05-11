@@ -3,6 +3,8 @@ package exception;
 public class ExceptionMessagesConstants {
 
 
+    public static final String CATEGORY_NOT_FOUND = "Kategori bulunamadı.";
+
     private ExceptionMessagesConstants() {
     }
 

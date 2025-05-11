@@ -45,8 +45,9 @@ public class OrderDAO implements BaseDAO<Order> {
     }
 
     @Override
-    public void delete(long id) {
+    public int delete(long id) {
 
+        return 0;
     }
 
 }

@@ -46,8 +46,9 @@ public class UserDAO implements BaseDAO<User> {
     }
 
     @Override
-    public void delete(long id) {
+    public int delete(long id) {
 
+        return 0;
     }
 
     public User findByUserName(String userName) {

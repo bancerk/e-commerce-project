@@ -1,16 +1,26 @@
 import exception.ExceptionMessagesConstants;
 import exception.PatikaStoreException;
+import model.Category;
+import model.Product;
 import model.User;
 import model.enums.Role;
+import service.CategoryService;
 import service.CustomerService;
+import service.ProductService;
 import service.UserService;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 
 public class PatikaStoreMain {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static final UserService userService = new UserService();
+    private static final CategoryService categoryService = new CategoryService();
+    private static final CustomerService customerService = new CustomerService();
+    private static final ProductService productService = new ProductService();
+    private static User LOGGED_IN_USER;
 
     public static void main(String[] args) {
 
@@ -80,6 +90,8 @@ public class PatikaStoreMain {
 
         if (loggedInUser != null && loggedInUser.getActive()) {
 
+            LOGGED_IN_USER = loggedInUser;
+
             getLoggedInUserMenu();
 
         } else {
@@ -87,7 +99,7 @@ public class PatikaStoreMain {
         }
     }
 
-    private static void getLoggedInUserMenu() {
+    private static void getLoggedInUserMenu() throws PatikaStoreException {
 
         while (true) {
             System.out.println("==== LOGIN OLAN KULLANICI MENUSU ===");
@@ -131,6 +143,24 @@ public class PatikaStoreMain {
                     System.out.println("Geçersiz Seçim !");
             }
         }
+    }
+
+    private static void deleteCategory() {
+        while (true) {
+            System.out.println("Kategori id giriniz:");
+            String categoryId = scanner.nextLine();
+
+            categoryService.deleteById(Long.parseLong(categoryId));
+        }
+    }
+
+    private static void listCategory() {
+        List<Category> categoryList = categoryService.getAll();
+        categoryList.forEach(System.out::println);
+    }
+
+    private static void createCategory() throws PatikaStoreException {
+        throw new PatikaStoreException("Not Implemented");
     }
 
     private static void registerUser() throws PatikaStoreException {
@@ -204,5 +234,25 @@ public class PatikaStoreMain {
 
         CustomerService customerService = new CustomerService();
         customerService.save(name, email, password);
+    }
+
+    private void createProduct() throws PatikaStoreException {
+
+        System.out.println("Ürün ismi giriniz:");
+        String productName = scanner.nextLine();
+        System.out.println("Ürün fiyatını giriniz:");
+        String productPrice = scanner.nextLine();
+        System.out.println("Ürün stok bilgisini giriniz:");
+        String stock = scanner.nextLine();
+        System.out.println("Kategori id giriniz:");
+        String productCategoryId = scanner.nextLine();
+
+        Category category = categoryService.getById(Long.parseLong(productCategoryId));
+
+
+        Product product = new Product(productName, new BigDecimal(productPrice), Integer.parseInt(stock), productCategoryId);
+
+        productService.save(product, LOGGED_IN_USER);
+
     }
 }

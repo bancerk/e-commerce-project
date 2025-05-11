@@ -43,7 +43,8 @@ public class PaymentDAO implements BaseDAO<Payment> {
     }
 
     @Override
-    public void delete(long id) {
+    public int delete(long id) {
 
+        return 0;
     }
 }

@@ -24,4 +24,12 @@ public class Category extends BaseModel {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + getId() + '\'' +
+                "categoryName=" + categoryName + '\'' +
+                '}';
+    }
 }

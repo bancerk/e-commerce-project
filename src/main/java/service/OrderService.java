@@ -20,7 +20,7 @@ public class OrderService {
 
 
         BigDecimal totalAmount = products.stream()
-                .map(Product::getProductPrice)
+                .map(Product::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         Order order = new Order();

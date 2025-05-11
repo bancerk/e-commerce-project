@@ -4,50 +4,53 @@ import java.math.BigDecimal;
 
 public class Product extends BaseModel {
 
-    private String productName;
-    private BigDecimal productPrice;
-    private int productStock;
-    private Category productCategory;
+    private String name;
+    private BigDecimal price;
+    private int stock;
+    private Category category;
 
     public Product() {
     }
 
-    public Product(String productName, BigDecimal productPrice, int productStock, Category productCategory) {
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.productStock = productStock;
-        this.productCategory = productCategory;
+    public Product(String name, BigDecimal price, int stock, String productCategoryId) {
     }
 
-    public String getProductName() {
-        return productName;
+    public Product(String name, BigDecimal price, int stock, Category category) {
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.category = category;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public String getName() {
+        return name;
     }
 
-    public BigDecimal getProductPrice() {
-        return productPrice;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setProductPrice(BigDecimal productPrice) {
-        this.productPrice = productPrice;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public int getProductStock() {
-        return productStock;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
-    public void setProductStock(int productStock) {
-        this.productStock = productStock;
+    public int getStock() {
+        return stock;
     }
 
-    public Category getProductCategory() {
-        return productCategory;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
-    public void setProductCategory(Category productCategory) {
-        this.productCategory = productCategory;
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(long category) {
+        this.category = category;
     }
 }

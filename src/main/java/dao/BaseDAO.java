@@ -12,5 +12,5 @@ public interface BaseDAO<T> {
 
     void update(T t);
 
-    void delete(long id);
+    int delete(long id);
 }

@@ -47,6 +47,14 @@ public class SqlScriptConstants {
             INSERT INTO category (name,created_by, updated_by);
             VALUES (?,?,?);
             """;
+    public static final String CATEGORY_DELETE = """
+            DELETE FROM category WHERE id = ?;
+            VALUES (?);
+            """;
+    public static final String CATEGORY_FIND_BY_ID = """
+            SELECT * FROM category WHERE id = ?;
+            VALUES (?);
+            """;
 
     private SqlScriptConstants() {
     }

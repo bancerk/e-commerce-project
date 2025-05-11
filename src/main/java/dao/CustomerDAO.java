@@ -11,8 +11,9 @@ import java.util.List;
 public class CustomerDAO implements BaseDAO<Customer> {
 
     @Override
-    public void delete(long id) {
+    public int delete(long id) {
         //todo
+        return 0;
     }
 
     @Override
